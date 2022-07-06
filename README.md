@@ -101,21 +101,7 @@ After installing MindSpore via the official website, you can start training and 
   bash run_eval_standalone_Ascend.sh [DEVICE_ID] [CKPT_FILES]
   # example: bash run_train_Ascend.sh 0 "/data/sphereface/6000-9923.ckpt"
 
-- running on GPU
 
-  ```python
-
-  # run training example
-  python train.py > train.log 2>&1 &
-
-  # run distributed training example
-  bash scripts/run_distribute_train_GPU.sh 8 0,1,2,3,4,5,6,7
-
-  # run evaluation example
-  python eval.py > eval.log 2>&1 &
-  OR
-  bash run_eval_standalone_GPU.sh [DEVICE_ID] [CKPT_FILES]
-  # example: bash run_eval_standalone_GPU.sh 0 "/data/sphereface/6000-9923.ckpt"
 
   For distributed training, a hccl configuration file with JSON format needs to be created in advance.
 
@@ -254,25 +240,7 @@ For more configuration details, please refer the script `config.py`.
 
   The model checkpoint will be saved in the current directory.
 
-- running on GPU
 
-  ```bash
-
-  bash scripts/run_train_standalone_GPU.sh 3
-
-  ```
-
-  The python command above will run in the background, you can view the results through the file `train.log`.
-
-  After training, you'll get some checkpoint files under the script folder by default. The loss value will be achieved as follows:
-
-  ```bash
-
-  2021-11-12 12:47:04,004:INFO:epoch[0], iter[1774], loss:8.9929695, mean_fps:0.00 imgs/sec
-  2021-11-12 13:07:43,106:INFO:epoch[1], iter[3549], loss:8.491371, mean_fps:366.72 imgs/sec
-  2021-11-12 13:28:21,060:INFO:epoch[2], iter[5324], loss:8.061005, mean_fps:367.06 imgs/sec
-  2021-11-12 13:48:55,650:INFO:epoch[3], iter[7099], loss:7.3936157, mean_fps:368.06 imgs/sec
-  ...
 
   ```
 
@@ -435,47 +403,45 @@ The accuracy of evaluating DenseNet121 on the test dataset of ImageNet will be a
 
 #### Sphereface on CASIA-WebFace
 
-| Parameters                 | Ascend                                                      |GPU|
-| -------------------------- | ----------------------------------------------------------- |----|
-| Model Version              | Spherenet20a                                              |Sphereface20a|
-| Resource                   | Ascend 910; CPU 2.60GHz, 192cores; Memory 755G; OS Euler2.8             |V100*8; CPU 2.6GHZ 56Cores; Memory 377G; OS Euler2.8|
-| uploaded Date              | 10/28/2021 (month/day/year)                                 |11/13/2021|
-| MindSpore Version          | 1.3.0                                                       |1.5.0|
-| Dataset                    | CASIA-WebFace                                                  |CASIA-WebFace|
-| Training Parameters        | epoch=20, steps=1775, batch_size = 256, lr=0.15              |epoch=20, steps=1775, batch_size = 256, lr=0.15              |
-| Optimizer                  | Momentum                                                    |Momentum                                                    |
-| Loss Function              | ASoftmax Cross Entropy                                       |ASoftmax Cross Entropy                                       |
-| outputs                    | probability                                                 |probability                                                 |
-| Loss                       | 3.1677                                                      |3.2163                                                      |
-| Speed                      | 1pc: 795 ms/step;  8pcs: 931 ms/step                          |1pc: 694 ms/step;  8pcs: 373 ms/step                          |
-| Total time                 | 1pc: 469.85 mins;  8pcs: 68.79 mins                          |1pc: 412.39 mins;  8pcs: 220.69 mins                          |
-| Parameters (M)             | 13.0                                                        |13.0                                                        |
-| Checkpoint for Fine tuning | 214.58M (.ckpt file)                                         |214.58M (.ckpt file)                                         |
-| Scripts                    | [sphereface script](https://gitee.com/mindspore/models/tree/master/official/cv/sphereface) |[sphereface script](https://gitee.com/mindspore/models/tree/master/official/cv/sphereface) |
-
+| Parameters                 | Ascend                                                      |
+| -------------------------- | ----------------------------------------------------------- |
+| Model Version              | Spherenet20a                                              |
+| Resource                   | Ascend 910; CPU 2.60GHz, 192cores; Memory 755G; OS Euler2.8             |
+| uploaded Date              | 10/28/2021 (month/day/year)                                 |
+| MindSpore Version          | 1.3.0                                                       |
+| Dataset                    | CASIA-WebFace                                                  |
+| Training Parameters        | epoch=20, steps=1775, batch_size = 256, lr=0.15              |
+| Optimizer                  | Momentum                                                    |
+| Loss Function              | ASoftmax Cross Entropy                                       |
+| outputs                    | probability                                                 |
+| Loss                       | 3.1677                                                      |
+| Speed                      | 1pc: 795 ms/step;  8pcs: 931 ms/step                          |
+| Total time                 | 1pc: 469.85 mins;  8pcs: 68.79 mins                          |
+| Parameters (M)             | 13.0                                                        |
+| Checkpoint for Fine tuning | 214.58M (.ckpt file)                                         |
+| Scripts                    | [sphereface script](https://gitee.com/mindspore/models/tree/master/official/cv/sphereface) |
 ### Inference Performance
 
 #### Sphereface on LFW
 
-| Parameters          | Ascend                      |GPU|
-| ------------------- | --------------------------- |---|
-| Model Version       | Sphereface20a               |Sphereface20a               |
-| Resource            | Ascend 910; OS Euler2.8                  |V100; OS Euler2.8|
-| Uploaded Date       | 10/28/2021 (month/day/year) |11/13/2021|
-| MindSpore Version   | 1.3.0                       |1.5.0|
-| Dataset             | LFW, 13,323 images     |LFW, 13,323 images     |
-| batch_size          | 60                         |60                         |
-| outputs             | probability                 |probability                 |
-| Accuracy            | 1pc: 99.23%;  8pcs: 99.28%   |1pc: 99.13%;  8pcs: 99.18%   |
+| Parameters          | Ascend                      |
+| ------------------- | --------------------------- |
+| Model Version       | Sphereface20a               |
+| Resource            | Ascend 910; OS Euler2.8                  |
+| Uploaded Date       | 10/28/2021 (month/day/year) |
+| MindSpore Version   | 1.3.0                       |
+| Dataset             | LFW, 13,323 images     |
+| batch_size          | 60                         |
+| outputs             | probability                 |
+| Accuracy            | 1pc: 99.23%;  8pcs: 99.28%   |
 
 ## [How to use](#contents)
 
 ### Inference
 
-If you need to use the trained model to perform inference on multiple hardware platforms, such as GPU, Ascend 910 or Ascend 310, you can refer to this [Link](https://www.mindspore.cn/docs/programming_guide/en/r1.6/quick_start/quick_video/inference.html). Following the steps below, this is a simple example:
+If you need to use the trained model to perform inference on multiple hardware platforms, such as Ascend 910 or Ascend 310, you can refer to this [Link](https://www.mindspore.cn/docs/programming_guide/en/r1.6/quick_start/quick_video/inference.html). Following the steps below, this is a simple example:
 
-- Running on Ascend and GPU
-
+- Running on Ascend
   ```python
 
   # Set context
@@ -513,7 +479,7 @@ If you need to use the trained model to perform inference on multiple hardware p
 
 ### Continue Training on the Pretrained Model
 
-- running on Ascend and GPU
+- running on Ascend
 
   ```python
 
